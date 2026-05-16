@@ -1,0 +1,10 @@
+{
+  "early_stop": true,
+  "best_score": 0.0009811294565161947,
+  "best_epoch": 7,
+  "patience_used": 15,
+  "patience_max": 15,
+  "early_stop_triggered": true,
+  "stopped_epoch": 22,
+  "total_epochs_completed": 22
+}

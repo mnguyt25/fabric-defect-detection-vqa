@@ -1,0 +1,54 @@
+# Database Configuration
+database:
+  type: "sqlite"
+  path: "./metadata.db"
+
+# MinIO Configuration
+minio:
+  endpoint: "localhost:9000"
+  access_key: "minioadmin"
+  secret_key: "minioadmin"
+  bucket_name: "defect-images"
+  secure: false
+
+# Paths
+paths:
+  data_raw: "./data/raw"
+  data_preprocessed: "./data/preprocessed"
+  logs_dir: "./logs"
+  models_dir: "./models"
+
+# Segmentation Configuration
+segmentation:
+  encoder_name: "efficientnet-b0"
+  input_size: [512, 512]
+  batch_size: 8
+  num_epochs: 50
+  learning_rate: 0.0001
+  threshold: 0.5
+  early_stopping_patience: 15
+
+# VQA Configuration
+vqa:
+  model_name: "HuggingFaceTB/SmolVLM-Instruct"
+  device: "cpu"
+  max_new_tokens: 150
+  temperature: 0.1
+  max_question_len: 64
+
+# Preprocessing
+preprocessing:
+  median_kernel: 5
+  clahe: true
+  clahe_clip_limit: 2.0
+  clahe_grid_size: [8, 8]
+  resize_for_feature: [224, 224]
+  resize_for_segmentation: [512, 512]
+  mean: 0.456
+  std: 0.224
+
+# Logging
+logging:
+  level: "INFO"
+  save_to_db: true
+  save_to_file: true

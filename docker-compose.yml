@@ -1,0 +1,93 @@
+version: '3.8'
+
+services:
+  # FastAPI Application
+  app:
+    build: .
+    container_name: defect-detection-app
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount model directory (for pre-trained models)
+      - ./models:/app/models
+      # Mount uploads directory
+      - ./uploads:/app/uploads
+      # Mount logs
+      - ./logs:/app/logs
+    environment:
+      - DB_TYPE=postgresql
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=defect_db
+      - DB_USER=postgres
+      - DB_PASS=postgres
+      - MINIO_ENDPOINT=minio:9000
+      - MINIO_ACCESS_KEY=minioadmin
+      - MINIO_SECRET_KEY=minioadmin
+    depends_on:
+      - postgres
+      - minio
+    networks:
+      - defect-network
+    restart: unless-stopped
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: defect-detection-db
+    environment:
+      - POSTGRES_DB=defect_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - defect-network
+    restart: unless-stopped
+
+  # MinIO Storage
+  minio:
+    image: minio/minio:latest
+    container_name: defect-detection-minio
+    command: server /data --console-address ":9001"
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    networks:
+      - defect-network
+    restart: unless-stopped
+
+  # Optional: MinIO Client to create bucket automatically
+  minio-init:
+    image: minio/mc:latest
+    container_name: defect-detection-minio-init
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      until mc alias set myminio http://minio:9000 minioadmin minioadmin; do
+        echo 'Waiting for MinIO...';
+        sleep 2;
+      done;
+      mc mb myminio/defect-images --ignore-existing;
+      mc policy set download myminio/defect-images;
+      echo 'MinIO bucket initialized';
+      exit 0;
+      "
+    networks:
+      - defect-network
+
+networks:
+  defect-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  minio_data:

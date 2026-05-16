@@ -1,0 +1,22 @@
+/* Additional custom styles */
+.result-image {
+    transition: transform 0.3s;
+}
+
+.result-image:hover {
+    transform: scale(1.02);
+}
+
+.defect-badge {
+    transition: all 0.2s;
+}
+
+.defect-badge:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.card {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+}

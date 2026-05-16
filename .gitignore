@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+.tox/
+.mypy_cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Project specific
+uploads/
+logs/
+*.db
+*.sqlite3
+metadata.db
+models/segmentation/*.pth
+models/segmentation/*.bin
+models/checkpoints/
+!models/segmentation/.gitkeep
+!models/checkpoints/.gitkeep
+
+# Docker
+*.log
+.dockerignore
+!Dockerfile
+!docker-compose*.yml
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb
+
+# MinIO data
+minio_data/
+
+# PostgreSQL data
+postgres_data/

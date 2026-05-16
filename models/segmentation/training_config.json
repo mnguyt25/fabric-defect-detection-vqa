@@ -1,0 +1,16 @@
+{
+  "encoder_name": "efficientnet-b0",
+  "input_size": [
+    512,
+    512
+  ],
+  "batch_size": 8,
+  "num_epochs": 50,
+  "learning_rate": 0.0001,
+  "weight_decay": 0.0001,
+  "device": "cpu",
+  "timestamp": "2026-05-11T18:40:52.771520",
+  "early_stopping_patience": 15,
+  "early_stopping_min_delta": 0.001,
+  "early_stopping_mode": "min"
+}
